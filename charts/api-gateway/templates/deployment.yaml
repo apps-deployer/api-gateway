@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-gateway
+  template:
+    metadata:
+      labels:
+        app: api-gateway
+    spec:
+      containers:
+        - name: api-gateway
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.server.port }}
+          env:
+            - name: GATEWAY_SERVER__PORT
+              value: {{ .Values.server.port | quote }}
+            - name: GATEWAY_SERVER__FRONTEND_URL
+              value: {{ .Values.server.frontendUrl | quote }}
+            - name: GATEWAY_GRPC__PROJECTS_SERVICE_ADDR
+              value: {{ .Values.grpc.projectsServiceAddr | quote }}
+            - name: GATEWAY_UPSTREAM__AUTH_SERVICE_URL
+              value: {{ .Values.upstream.authServiceUrl | quote }}
+            - name: GATEWAY_UPSTREAM__DEPLOYMENTS_SERVICE_URL
+              value: {{ .Values.upstream.deploymentsServiceUrl | quote }}
+            - name: GATEWAY_AUTH__JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: api-gateway-secret
+                  key: JWT_SECRET

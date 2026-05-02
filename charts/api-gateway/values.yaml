@@ -1,0 +1,21 @@
+image:
+  repository: ""
+  tag: latest
+  pullPolicy: IfNotPresent
+
+server:
+  port: 8002
+  frontendUrl: ""
+
+grpc:
+  projectsServiceAddr: projects-service:50051
+
+upstream:
+  authServiceUrl: http://auth-service:8001
+  deploymentsServiceUrl: http://deployments-service:8000
+
+ingress:
+  host: ""
+
+secrets:
+  jwtSecret: ""
