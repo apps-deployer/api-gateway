@@ -157,15 +157,3 @@ class DeploymentRunListResponse(BaseModel):
 class GitEnvLookupRequest(BaseModel):
     repo_url: str
     target_branch: str
-
-
-class InstallationUpsertRequest(BaseModel):
-    installation_id: int
-    github_account_id: int
-    github_account_login: str
-    sender_github_id: int | None = None
-
-
-class InstallationStatusResponse(BaseModel):
-    installed: bool
-    install_url: str
