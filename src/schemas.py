@@ -8,6 +8,7 @@ from pydantic import BaseModel
 class ProjectResponse(BaseModel):
     id: str
     name: str
+    slug: str
     repo_url: str
     owner_id: str
 
