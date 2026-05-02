@@ -1,6 +1,7 @@
 import sys
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent / "generated"))
 
@@ -39,6 +40,7 @@ class DeployConfigRaw:
     install_cmd_override: str
     build_cmd_override: str
     run_cmd_override: str
+    app_port_override: int
 
 
 @dataclass
@@ -57,6 +59,7 @@ class Framework:
     install_cmd: str
     build_cmd: str
     run_cmd: str
+    app_port: int
 
 
 class ProjectsGrpcClient:
@@ -211,9 +214,10 @@ class ProjectsGrpcClient:
             root_dir_override=resp.root_dir_override, output_dir_override=resp.output_dir_override,
             base_image_override=resp.base_image_override, install_cmd_override=resp.install_cmd_override,
             build_cmd_override=resp.build_cmd_override, run_cmd_override=resp.run_cmd_override,
+            app_port_override=resp.app_port_override,
         )
 
-    async def update_deploy_config(self, config_id: str, **kwargs: str) -> None:
+    async def update_deploy_config(self, config_id: str, **kwargs: Any) -> None:
         await self._deploy_configs.UpdateDeployConfig(
             deploy_configs_pb2.UpdateDeployConfigRequest(id=config_id, **kwargs),
             metadata=self._metadata(),
@@ -228,6 +232,7 @@ class ProjectsGrpcClient:
             Framework(
                 id=f.id, name=f.name, root_dir=f.root_dir, output_dir=f.output_dir,
                 base_image=f.base_image, install_cmd=f.install_cmd, build_cmd=f.build_cmd, run_cmd=f.run_cmd,
+                app_port=f.app_port,
             )
             for f in resp.frameworks
         ]

@@ -76,6 +76,7 @@ class DeployConfigResponse(BaseModel):
     install_cmd_override: str
     build_cmd_override: str
     run_cmd_override: str
+    app_port_override: int
 
 
 class UpdateDeployConfigRequest(BaseModel):
@@ -86,6 +87,7 @@ class UpdateDeployConfigRequest(BaseModel):
     install_cmd_override: str = ""
     build_cmd_override: str = ""
     run_cmd_override: str = ""
+    app_port_override: int = 0
 
 
 class FrameworkResponse(BaseModel):
@@ -97,6 +99,7 @@ class FrameworkResponse(BaseModel):
     install_cmd: str
     build_cmd: str
     run_cmd: str
+    app_port: int
 
 
 class FrameworksListResponse(BaseModel):
